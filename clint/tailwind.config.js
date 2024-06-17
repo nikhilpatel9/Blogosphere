@@ -17,5 +17,6 @@ import { createRequire } from 'module';
        [ 
         flowbite.plugin(),
         require('flowbite/plugin'), 
+        require('tailwind-scrollbar'),
       ], 
     };
