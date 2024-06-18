@@ -4,6 +4,7 @@
         "getposts",
         "nextjs",
         "reactjs",
-        "uncategorized"
+        "uncategorized",
+        "updatepost"
     ]
 }
