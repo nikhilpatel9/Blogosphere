@@ -3,8 +3,11 @@
         "deletepost",
         "flowbite",
         "getposts",
+        "getusers",
+        "hoverable",
         "nextjs",
         "reactjs",
+        "signout",
         "uncategorized",
         "updatepost",
         "utills"
