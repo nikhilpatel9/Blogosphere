@@ -3,8 +3,11 @@ import { useEffect, useState } from "react"
 import { FaThumbsUp } from 'react-icons/fa';
 import moment from 'moment';
 import { useSelector } from "react-redux";
-export default function Comment({comment,onLike}) {
+import { Button, Textarea } from 'flowbite-react'
+export default function Comment({comment,onLike,onEdit}) {
     const [user,setUser]=useState({});
+    const [isEditing, setIsEditing]=useState(false);
+    const [editedContent,setEditedContent]=useState(comment.content);
     const {currentUser }= useSelector((state)=>state.user);
     useEffect(() => {
         const getUser = async () => {
@@ -20,7 +23,30 @@ export default function Comment({comment,onLike}) {
         };
         getUser();
       }, [comment]);
-    
+  const handleEdit =()=>{
+    setIsEditing(true);
+    setEditedContent(comment.content);
+
+  }
+  const handleSave =async()=>{
+    try {
+      const res=await fetch(`/api/comment/editComment/${comment._id}`,{
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json",
+          },
+          body:JSON.stringify({
+            content:editedContent,
+            })
+      });
+      if(res.ok){
+        setIsEditing(false);
+        onEdit(comment,editedContent);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
     <div className="flex-shrink-0 mr-3">
@@ -37,7 +63,29 @@ export default function Comment({comment,onLike}) {
                 {moment(comment.createdAt).fromNow()}
             </span>
         </div>
-        <p className="text-gray-500 pb-2">{comment.content}</p>
+        { isEditing ? (
+          <><Textarea 
+          className="mb-2"
+          value={editedContent}
+          onChange={(e)=>setEditedContent(e.target.value)}
+          />
+          <div className="flex justify-end gap-2 text-xs">
+            <Button type='button'
+            size='sm'
+            gradientDuoTone='purpleToBlue'
+            onClick={handleSave}
+            >Save</Button>
+            <Button type='button'
+            size='sm'
+            gradientDuoTone='purpleToBlue'
+            outline
+            onClick={()=>setIsEditing(false)}
+            >Cancel</Button>
+          </div>
+          </> 
+        ):(
+          <>
+           <p className="text-gray-500 pb-2">{comment.content}</p>
         <div className='flex items-center pb-2 text-xs border-t dark:border-gray-700 max-w-fit gap-2'>
           <button type="button" 
           onClick={()=>onLike(comment._id)} 
@@ -53,7 +101,18 @@ export default function Comment({comment,onLike}) {
           comment.numberOfLikes >0 && comment.numberOfLikes +" "+(comment.numberOfLikes ===1 ? "like" : "likes")
           }
           </p>
+          {
+            currentUser && (currentUser._id===comment.userId || currentUser.isAdmin) &&(
+              <button 
+              type="button"  
+              onClick={handleEdit}
+              className="text-gray-400 hover:text-blue-500">Edit</button>
+            )
+          }
         </div>
+          </>
+        )}
+       
     </div>
     </div>
   );
