@@ -120,7 +120,7 @@ export default function CreatePost() {
                     <img src={formData.image} alt="upload" className="w-full h-72 object-cover"
                     />
                 )
-            };
+            }
             <ReactQuill theme='snow'
              placeholder="write something..." 
              className="h-72 mb-12 "
