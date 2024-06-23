@@ -95,6 +95,7 @@ export default function CreatePost() {
                     <option value='nextjs'>Next.js</option>
                     <option value="cpp">C++</option>
                     <option value="java">Java</option>
+                    <option value="dsa">DSA</option>
                     <option value="algo">Algorithms</option>
                     <option value='other'>Other</option>
                 </Select>
