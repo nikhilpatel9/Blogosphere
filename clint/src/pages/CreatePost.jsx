@@ -93,6 +93,10 @@ export default function CreatePost() {
                     <option value="javascript">Javascript</option>
                     <option value="reactjs">React.js</option>
                     <option value='nextjs'>Next.js</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="algo">Algorithms</option>
+                    <option value='other'>Other</option>
                 </Select>
 
             </div>
