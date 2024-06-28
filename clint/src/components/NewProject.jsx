@@ -2,7 +2,7 @@ import { Button } from 'flowbite-react';
 
 export default function NewProject() {
   return (
-    <div className='flex flex-col sm:flex-row p-3 border border-teal-500 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center'>
+    <div className='flex flex-col sm:flex-row p-3 border border-teal-500 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center h-64 w-2/3'>
     <div className="flex-1 justify-center flex flex-col">
         <h2 className='text-2xl'>
         A word search game is a puzzle where players must find a list of hidden words within a grid of letters 
@@ -16,8 +16,8 @@ export default function NewProject() {
             </a>
         </Button>
     </div>
-    <div className="p-7 flex-1">
-        <img src="https://thewordsearch.com/v4/img/word-search-puzzle.png" />
+    <div className="p-9 flex-1">
+        <img  className ="h-48 w-96 flex-auto" src="https://thewordsearch.com/v4/img/word-search-puzzle.png" />
     </div>
 </div>
 )
