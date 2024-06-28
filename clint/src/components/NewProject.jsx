@@ -6,6 +6,7 @@ export default function NewProject() {
     <div className="flex-1 justify-center flex flex-col">
         <h2 className='text-2xl'>
         A word search game is a puzzle where players must find a list of hidden words within a grid of letters 
+        <a href='https://github.com/nikhilpatel9/Word_Search_Puzzle'className="font-medium text-blue-600 dark:text-blue-500 hover:underline"> Source Code</a>
         </h2>
         <p className='text-gray-500 my-2'>
             Checkout these game! made with JavaScript , CSS, HTML, jQuery , Bootstrap.
