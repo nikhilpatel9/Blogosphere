@@ -61,8 +61,7 @@ export default function PostPage() {
         className='self-center mt-5'>
         <Button color='gray' pill size='xs'>{post && post.category}</Button>
         </Link>
-        <img src={post && post.image} alt={post && post.title} className="mt-10
-        p-3 max-h-{600px} w-full object-cover"/>
+        <img src={post && post.image} alt={post && post.title} className="mt-5 mx-auto p-3 max-h-[500px] w-2/3 object-center"/>
         <div className="flex justify-between p-3 border-b border-slate-500
         mx-auto w-full max-w-2xl text-xs">
             <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
@@ -71,13 +70,13 @@ export default function PostPage() {
         <div className ='p-3 max-w-2xl mx-auto w-full post-content' dangerouslySetInnerHTML={{__html:post && post.content}}>
 
         </div>
-        <div className="max-w-4xl mx-auto w-full">
+        <div className="flex justify-center max-w-5xl mx-auto w-full">
             <CallToAction/>
         </div>
         <CommentSection postId={post._id} />
         <div className="flex flex-col justify-center items-center mb-5">
             <h1 className="text-xl mt-5">Recent articles</h1>
-            <div className="flex flex-wrap gap-5 mt-5 justify-center">
+            <div className="flex flex-wrap gap-5 mt-4 justify-center transition-all">
             {
                 recentPosts &&
                 recentPosts.map((post)=>(
