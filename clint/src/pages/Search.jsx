@@ -126,9 +126,14 @@ export default function Search() {
                     <label className="font-semibold">Category:</label>
                     <Select onChange={handleChange} value={sidebarData.category} id='category'>
                         <option value="uncategorized">Uncategorized</option>
+                        <option value="javascript">Javascript</option>
                         <option value="reactjs">React.js</option>
-                        <option value="next.js">Next.js</option>
-                        <option value="javascript">JavaScript</option>
+                        <option value='nextjs'>Next.js</option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                        <option value="dsa">DSA</option>
+                        <option value="algo">Algorithms</option>
+                        <option value='other'>Other</option>
                     </Select>
                 </div>
                 <Button type="submit" outline gradientDuoTone='purpleToPink'>Apply Filters</Button>
