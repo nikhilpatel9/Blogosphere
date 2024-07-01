@@ -1,7 +1,7 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link ,useLocation,useNavigate} from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSun ,FaBell } from 'react-icons/fa';
 import { useSelector,useDispatch }from 'react-redux';
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -16,7 +16,10 @@ export default function Header() {
     const {theme} = useSelector((state) => state.theme);
     const {currentUser} = useSelector(state => state.user);
     const [searchTerm, setSearchTerm]=useState('');
+    const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
     useEffect(()=>{
+        
         const urlParams= new URLSearchParams(location.search);
         const searchTermFormUrl =urlParams.get('searchTerm');
         if(searchTermFormUrl){
@@ -24,6 +27,25 @@ export default function Header() {
             }
 
 },[location.search]);
+useEffect(() => {
+const fetchNotifications = async () => {
+    try {
+      const res = await fetch('/api/notifications');
+      const data = await res.json();
+      if (res.ok) {
+        setNotifications(data);
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  fetchNotifications();
+  const interval = setInterval(fetchNotifications, 30000); // Fetch every 30 seconds
+
+  return () => clearInterval(interval);
+}, []);
+
     const handleSignOut =async ()=>{
         try {
           const res= await fetch('/api/user/signout',{
@@ -118,6 +140,31 @@ export default function Header() {
             <Navbar.Link active={path==='/contact-us'} as={'div'}>
             <Link to={'/contact-us'}>Contact Us</Link></Navbar.Link>
         </Navbar.Collapse>
+        {currentUser && (
+        <div className="relative">
+          <FaBell
+            className="text-2xl cursor-pointer"
+            onClick={() => setShowNotifications(!showNotifications)}
+          />
+          {notifications.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+              {notifications.length}
+            </span>
+          )}
+          {showNotifications && (
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-20 max-h-96 overflow-y-auto">
+              {notifications.map((notification) => (
+                <div key={notification._id} className="px-4 py-2 hover:bg-gray-100">
+                  <p className="text-sm">{notification.message}</p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(notification.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
    </Navbar>
   )
 }

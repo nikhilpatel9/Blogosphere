@@ -16,11 +16,14 @@ import PostPage from "./pages/PostPage"
 import ScrollToTop from "./components/ScrollToTop"
 import Search from "./pages/Search"
 import ContactUs from "./pages/ContactUs"
+import Notification from "./components/Notification"
 export default function App() {
   return (
   <BrowserRouter>
   <ScrollToTop/>
+  
   <Header/>
+  <Notification/>
    <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/about" element={<About/>}/>

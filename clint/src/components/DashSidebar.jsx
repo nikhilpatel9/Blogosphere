@@ -1,5 +1,5 @@
 import { Sidebar} from 'flowbite-react';
-import { HiUser, HiArrowSmRight,HiDocumentText,HiOutlineUserGroup,HiAnnotation,HiChartPie,HiMail } from 'react-icons/hi';
+import { HiUser, HiArrowSmRight,HiDocumentText,HiOutlineUserGroup,HiAnnotation,HiChartPie,HiMail,HiBell} from 'react-icons/hi';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -95,6 +95,15 @@ export default function DashSidebar() {
             icon={HiMail} as='div'>Messages
             </Sidebar.Item>
             
+            </Link>
+            <Link to='/dashboard?tab=notifications'>
+              <Sidebar.Item
+                active={tab === 'notifications'}
+                icon={HiBell}
+                as='div'
+              >
+                Notifications
+              </Sidebar.Item>
             </Link>
             </>
           )}

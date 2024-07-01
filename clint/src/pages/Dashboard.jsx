@@ -7,6 +7,7 @@ import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
 import DashboardComp from '../components/DashboardComp';
 import DashMessages from '../components/DashMessages';
+import DashNotifications from '../components/DashNotifications';
 export default function Dashboard() {
   const location =useLocation();
   const [tab,setTab] =useState('');
@@ -36,6 +37,8 @@ export default function Dashboard() {
       {tab==='dash' &&<DashboardComp/>}
       {/* {} */}
       {tab==='messages' && <DashMessages/>}
+      {/* {} */}
+      {tab === 'notifications' && <DashNotifications />}
   </div>
     
   )
