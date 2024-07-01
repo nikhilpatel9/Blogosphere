@@ -1,7 +1,6 @@
-// controllers/notification.controller.js
 import Notification from '../models/notification.model.js';
 
-export const createNotification = async (req, res) => {
+export const createNotification = async (req, res, next) => {
   const { message } = req.body;
 
   if (!message) {
@@ -13,20 +12,20 @@ export const createNotification = async (req, res) => {
     const savedNotification = await newNotification.save();
     res.status(201).json(savedNotification);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating notification', error: error.message });
+    next(error);
   }
 };
 
-export const getNotifications = async (req, res) => {
+export const getNotifications = async (req, res, next) => {
   try {
     const notifications = await Notification.find().sort({ createdAt: -1 }).limit(5);
     res.status(200).json(notifications);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching notifications', error: error.message });
+    next(error);
   }
 };
 
-export const updateNotification = async (req, res) => {
+export const updateNotification = async (req, res, next) => {
   const { id } = req.params;
   const { message } = req.body;
 
@@ -41,11 +40,11 @@ export const updateNotification = async (req, res) => {
     }
     res.status(200).json(updatedNotification);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating notification', error: error.message });
+    next(error);
   }
 };
 
-export const deleteNotification = async (req, res) => {
+export const deleteNotification = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -55,6 +54,14 @@ export const deleteNotification = async (req, res) => {
     }
     res.status(200).json({ message: 'Notification deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting notification', error: error.message });
+    next(error);
+  }
+};
+export const markAllAsRead = async (req, res, next) => {
+  try {
+    await Notification.updateMany({ read: false }, { $set: { read: true } });
+    res.status(200).json({ message: 'All notifications marked as read' });
+  } catch (error) {
+    next(error);
   }
 };

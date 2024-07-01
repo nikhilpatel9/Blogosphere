@@ -11,20 +11,21 @@ export default function DashNotifications() {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    fetchNotifications();
-  }, []);
-
-  const fetchNotifications = async () => {
-    try {
-      const res = await fetch('/api/notifications');
-      const data = await res.json();
-      if (res.ok) {
-        setNotifications(data);
+    const fetchNotifications = async () => {
+      try {
+        const res = await fetch(`/api/notifications/getNotifications`);
+        const data = await res.json();
+        if (res.ok) {
+          setNotifications(data);
+        }
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
       }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
+    };
+    if(currentUser.isAdmin){
+    fetchNotifications();
     }
-  };
+  }, [currentUser._id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +33,16 @@ export default function DashNotifications() {
       setError('Please enter a message');
       return;
     }
+    if (editing) {
+      await handleUpdate(editing);
+    } else {
+      await handleCreate();
+    }
+  };
+
+  const handleCreate = async () => {
     try {
-      const res = await fetch('/api/notifications', {
+      const res = await fetch('/api/notifications/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,19 +56,15 @@ export default function DashNotifications() {
       }
       setSuccess('Notification sent successfully');
       setMessage('');
-      fetchNotifications();
+     
     } catch (error) {
       setError(error.message);
     }
   };
 
   const handleUpdate = async (id) => {
-    if (!message) {
-      setError('Please enter a message');
-      return;
-    }
     try {
-      const res = await fetch(`/api/notifications/${id}`, {
+      const res = await fetch(`/api/notifications/update/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +79,7 @@ export default function DashNotifications() {
       setSuccess('Notification updated successfully');
       setMessage('');
       setEditing(null);
-      fetchNotifications();
+      
     } catch (error) {
       setError(error.message);
     }
@@ -82,7 +87,7 @@ export default function DashNotifications() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/api/notifications/${id}`, {
+      const res = await fetch(`/api/notifications/delete/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${currentUser.token}`
@@ -93,7 +98,7 @@ export default function DashNotifications() {
         throw new Error(data.message || 'Something went wrong');
       }
       setSuccess('Notification deleted successfully');
-      fetchNotifications();
+      
     } catch (error) {
       setError(error.message);
     }
@@ -107,7 +112,10 @@ export default function DashNotifications() {
           type="text"
           placeholder="Enter notification message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            setError(null);  // Clear error on input change
+          }}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           {editing ? 'Update Notification' : 'Send Notification'}
@@ -116,23 +124,23 @@ export default function DashNotifications() {
       {error && <Alert color="failure" className="mt-4">{error}</Alert>}
       {success && <Alert color="success" className="mt-4">{success}</Alert>}
       <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Recent Notifications</h2>
+        <h2 className="text-2xl font-semibold mb-4">Sent Notifications</h2>
         {notifications.map((notification) => (
           <div key={notification._id} className="mb-2 flex justify-between items-center bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative">
             <span>{notification.message}</span>
-            <div className='flex'>
+            <div className='flex gap-2'>
               <Button
-               type="submit" gradientDuoTone="purpleToPink"
+                gradientDuoTone="purpleToPink"
                 onClick={() => {
-                    handleUpdate
                   setEditing(notification._id);
                   setMessage(notification.message);
+                  setError(null);  // Clear error on edit
                 }}
               >
                 Edit
               </Button>
               <Button
-               type="submit" gradientDuoTone="redToBlue"
+                gradientDuoTone="redToBlue"
                 onClick={() => handleDelete(notification._id)}
               >
                 Delete
