@@ -176,8 +176,14 @@ export default function Header() {
             </span>
           )}
           {showNotifications && (
-          <div className={`absolute right-0 mt-2 w-80 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-xl overflow-hidden z-20 max-h-[80vh] overflow-y-auto border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`} style={{top: 'calc(100% + 10px)'}}>
-            <h1 className={`text-lg font-bold p-4 border-b ${theme === 'dark' ? 'text-white border-gray-700' : 'text-gray-800 border-gray-200'} sticky top-0 bg-opacity-90 backdrop-blur-sm ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>Notifications</h1>
+          <div className={`absolute right-0 mt-2 w-80 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-sm overflow-hidden z-20 max-h-[80vh] overflow-y-auto border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`} style={{top: 'calc(100% + 10px)'}}>
+              <div className={`flex justify-between items-center text-lg font-bold p-4 border-b ${theme === 'dark' ? 'text-white border-gray-700' : 'text-gray-800 border-gray-200'} sticky top-0 bg-opacity-90 backdrop-blur-sm ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+          <span>Notifications</span>
+          <Link to="/notifications" className="text-blue-500 hover:underline" as={'div'}>
+            see all
+          </Link>
+         
+        </div>
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {notifications.length > 0 ? (
                 notifications.map((notification) => (

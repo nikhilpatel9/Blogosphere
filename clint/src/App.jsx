@@ -23,7 +23,7 @@ export default function App() {
   <ScrollToTop/>
   
   <Header/>
-  <Notification/>
+  
    <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/about" element={<About/>}/>
@@ -31,10 +31,12 @@ export default function App() {
     <Route path="/contact-us" element={<ContactUs/>}/>
     <Route path="/sign-up" element={<SignUp/>}/>
     <Route path="/search" element={<Search/>}/>
+    <Route path="/notifications" element={<Notification/>}/>
     <Route element={<PrivateRoute/>}>
     <Route path="/dashboard" element={<Dashboard/>}/>
     </Route>
     <Route element={<OnlyAdminPrivateRoute/>}>
+    
     <Route path="/create-post" element={<CreatePost/>}/>
     <Route path="/update-post/:postId" element={<UpdatePost/>}/>
     </Route>
