@@ -165,44 +165,56 @@ export default function Header() {
             <Button gradientDuoTone='purpleToBlue' outline>Sign In</Button>
           </Link>
         )}
-        <div className="relative" ref={notificationRef}>
-          <FaBell
-            className={`text-4xl cursor-pointer ${unreadNotifications > 0 ? 'text-blue-500' : ''}`}
-            onClick={handleNotificationClick}
-          />
-          {unreadNotifications > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
-              {unreadNotifications}
-            </span>
-          )}
-          {showNotifications && (
-          <div className={`absolute right-0 mt-2 w-80 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-sm overflow-hidden z-20 max-h-[80vh] overflow-y-auto border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`} style={{top: 'calc(100% + 10px)'}}>
-              <div className={`flex justify-between items-center text-lg font-bold p-4 border-b ${theme === 'dark' ? 'text-white border-gray-700' : 'text-gray-800 border-gray-200'} sticky top-0 bg-opacity-90 backdrop-blur-sm ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-          <span>Notifications</span>
-          <Link to="/notifications" className="text-blue-500 hover:underline" as={'div'}>
-            see all
-          </Link>
-         
-        </div>
-            <div className="divide-y divide-gray-200 dark:divide-gray-700">
-              {notifications.length > 0 ? (
-                notifications.map((notification) => (
-                  <div key={notification._id} className={`p-4 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${notification.read ? 'opacity-60' : ''} transition duration-150 ease-in-out`}>
-                    <p className={`text-sm mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{notification.message}</p>
-                    <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                      {new Date(notification.createdAt).toLocaleString()}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <div className={`px-4 py-6 text-center ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                  <p className="text-sm">No notifications</p>
-                </div>
+        <Dropdown
+          arrowIcon={false}
+          inline
+          label={
+            <div className="relative">
+              <FaBell
+                className={`text-4xl cursor-pointer ${unreadNotifications > 0 ? 'text-blue-500' : 'text-gray-400'}`}
+                onClick={handleNotificationClick}
+              />
+              {unreadNotifications > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-semibold">
+                  {unreadNotifications}
+                </span>
               )}
             </div>
-          </div>
-        )}
-        </div>
+          }
+        >
+          <Dropdown.Header className="flex justify-between items-center text-lg font-semibold p-4 border-b sticky top-0 bg-opacity-90 backdrop-blur-sm">
+            <span>Notifications</span>
+            <Link to="/notifications" className="text-blue-500 hover:underline">
+              See All
+            </Link>
+          </Dropdown.Header>
+          <Dropdown.Item>
+            <div
+              className={`w-80 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg overflow-hidden z-20 max-h-[80vh] overflow-y-auto border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}
+              style={{ top: 'calc(100% + 10px)' }}
+            >
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {notifications.length > 0 ? (
+                  notifications.map((notification) => (
+                    <div
+                      key={notification._id}
+                      className={`p-4 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${notification.read ? 'opacity-60' : ''} transition-all duration-150 ease-in-out`}
+                    >
+                      <p className={`text-sm mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{notification.message}</p>
+                      <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-900'}`}>
+                        {new Date(notification.createdAt).toLocaleString()}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div className={`px-4 py-6 text-center ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                    <p className="text-sm">No notifications</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Dropdown.Item>
+        </Dropdown>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>

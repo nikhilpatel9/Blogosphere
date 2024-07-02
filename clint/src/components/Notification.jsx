@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
+  
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -27,19 +28,35 @@ export default function Notification() {
   }, [currentUser.token]);
 
   return (
-    <div className="max-w-4xl mx-auto p-3 w-full">
-      <h1 className="text-3xl font-semibold my-7 text-center">Notifications</h1>
+    <div className={`max-w-4xl mx-auto p-4 w-full dark:bg-gray-900 dark:text-gray-100`}>
+      <h1 className={`text-4xl font-bold mb-8 text-center dark:text-gray-100`}>
+        Notifications
+      </h1>
       <div className="space-y-4">
-        {notifications.map((notification) => (
-          <Alert key={notification._id} color="info" className="relative p-4 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
-            <div className="flex flex-col">
-              <p>{notification.message}</p>
-              <div className="absolute bottom-2 right-2 text-sm text-gray-500">
-                {new Date(notification.createdAt).toLocaleString()}
+        {notifications.length > 0 ? (
+          notifications.map((notification) => (
+            <Alert
+              key={notification._id}
+              color="info"
+              className="relative p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 dark:bg-blue-200 dark:border-gray-700 bg-blue-50 border-blue-200"
+            >
+              <div className="flex flex-col">
+                <p className='text-lg dark:text-gray-900 text-gray-800'>
+                  {notification.message}
+                </p>
+                <div className="absolute bottom-2 right-2 text-xs dark:text-gray-900 text-gray-900">
+                  {new Date(notification.createdAt).toLocaleString()}
+                </div>
               </div>
-            </div>
-          </Alert>
-        ))}
+            </Alert>
+          ))
+        ) : (
+          <div className="text-center">
+            <p className="text-lg dark:text-gray-400 text-gray-500">
+              No notifications
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
