@@ -22,9 +22,10 @@ export default function DashNotifications() {
         console.error('Error fetching notifications:', error);
       }
     };
-    if(currentUser.isAdmin){
+    
     fetchNotifications();
-    }
+    const interval = setInterval(fetchNotifications, 1000);
+    return () => clearInterval(interval);
   }, [currentUser._id]);
 
   const handleSubmit = async (e) => {
@@ -38,6 +39,7 @@ export default function DashNotifications() {
     } else {
       await handleCreate();
     }
+    
   };
 
   const handleCreate = async () => {
@@ -125,7 +127,9 @@ export default function DashNotifications() {
       {success && <Alert color="success" className="mt-4">{success}</Alert>}
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Sent Notifications</h2>
-        {notifications.map((notification) => (
+        {
+         notifications.length > 0 ? (
+          notifications.map((notification) => (
           <div key={notification._id} className="mb-2 flex justify-between items-center bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative">
             <span>{notification.message}</span>
             <div className='flex gap-2'>
@@ -147,7 +151,12 @@ export default function DashNotifications() {
               </Button>
             </div>
           </div>
-        ))}
+        ))):( <div className="text-center">
+          <p className="text-lg dark:text-gray-400 text-gray-500">
+            No notifications
+          </p>
+        </div>
+        )}
       </div>
     </div>
   );

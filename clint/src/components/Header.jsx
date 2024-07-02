@@ -190,7 +190,7 @@ export default function Header() {
           </Dropdown.Header>
           <Dropdown.Item>
             <div
-              className={`w-80 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg overflow-hidden z-20 max-h-[80vh] overflow-y-auto border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}
+              className="w-80 dark:bg-gray-800 bg-white rounded-lg shadow-lg overflow-hidden z-20 max-h-[80vh] overflow-y-auto border dark:border-gray-700 border-gray-200"
               style={{ top: 'calc(100% + 10px)' }}
             >
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -198,10 +198,10 @@ export default function Header() {
                   notifications.map((notification) => (
                     <div
                       key={notification._id}
-                      className={`p-4 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${notification.read ? 'opacity-60' : ''} transition-all duration-150 ease-in-out`}
+                      className={`p-4 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${notification.read ? 'opacity-100' : ''} transition-all duration-150 ease-in-out`}
                     >
-                      <p className={`text-sm mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{notification.message}</p>
-                      <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-900'}`}>
+                      <p className="text-sm mb-1 dark:text-gray-100 text-gray-900">{notification.message}</p>
+                      <p className="text-xs dark:text-gray-100 text-gray-900">
                         {new Date(notification.createdAt).toLocaleString()}
                       </p>
                     </div>
