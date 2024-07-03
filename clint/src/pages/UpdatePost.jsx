@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -24,7 +25,7 @@ export default function UpdatePost() {
 
   const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
-
+  console.log(formData);
   useEffect(() => {
     try {
       const fetchPost = async () => {
@@ -65,8 +66,7 @@ export default function UpdatePost() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
-        // eslint-disable-next-line no-unused-vars
-        (error ) => {
+        (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
         },
@@ -87,7 +87,7 @@ export default function UpdatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(`/api/post/updatepost/${formData}/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -130,15 +130,10 @@ export default function UpdatePost() {
             }
             value={formData.category}
           >
-                    <option value="uncategorized">Select a category</option>
-                    <option value="javascript">Javascript</option>
-                    <option value="reactjs">React.js</option>
-                    <option value='nextjs'>Next.js</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                    <option value="dsa">DSA</option>
-                    <option value="algo">Algorithms</option>
-                    <option value='other'>Other</option>
+            <option value='uncategorized'>Select a category</option>
+            <option value='javascript'>JavaScript</option>
+            <option value='reactjs'>React.js</option>
+            <option value='nextjs'>Next.js</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
