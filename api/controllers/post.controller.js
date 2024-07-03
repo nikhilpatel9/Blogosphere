@@ -1,5 +1,5 @@
 import Post from '../models/post.model.js';
-import { errorHandler } from '../utils/error.js';
+import { errorHandler } from '../utills/error.js';
 
 export const create = async (req, res, next) => {
   if (!req.user.isAdmin) {
