@@ -98,14 +98,9 @@ export default function DashSidebar() {
         active={tab === countKey}
         icon={icon}
         as='div'
-        className="relative flex items-center space-x-2"
-      >
-        <span>{label}</span>
-        {newCounts[countKey] > 0 && (
-          <span className="absolute top-1 right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-semibold leading-none text-red-100 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-            {newCounts[countKey]}
-          </span>
-        )}
+        label={newCounts[countKey]>0?newCounts[countKey]:""}
+        labelColor='dark'
+      >{label}
       </Sidebar.Item>
     </Link>
   );
@@ -120,7 +115,7 @@ export default function DashSidebar() {
                 icon={HiChartPie}
                 active={tab === 'dash' || !tab}
                 as='div'
-                className="relative flex items-center space-x-2"
+                
               >
                 Dashboard
               </Sidebar.Item>
@@ -133,7 +128,7 @@ export default function DashSidebar() {
               label={currentUser.isAdmin ? 'Admin' : 'User'}
               labelColor='dark'
               as='div'
-              className="relative flex items-center space-x-2"
+      
             >
               Profile
             </Sidebar.Item>
@@ -147,7 +142,7 @@ export default function DashSidebar() {
               {renderSidebarItem('/dashboard?tab=notifications', HiBell, 'Notifications', 'notifications')}
             </>
           )}
-          <Sidebar.Item onClick={handleSignOut} icon={HiArrowSmRight} className="cursor-pointer flex items-center space-x-2">
+          <Sidebar.Item onClick={handleSignOut} icon={HiArrowSmRight} className="cursor-pointer flex justify-between items-center space-x-2">
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
