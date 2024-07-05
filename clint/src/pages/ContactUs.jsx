@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Alert, Button, Label, Spinner, TextInput, Textarea } from "flowbite-react";
 import { useState } from "react";
-// import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function ContactUs() {
@@ -18,7 +17,7 @@ export default function ContactUs() {
     const { id, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
-      [id]: value.trim()
+      [id]: id === 'message' ? value : value.trim() // Only trim non-message fields
     }));
   };
 

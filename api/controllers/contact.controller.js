@@ -1,4 +1,6 @@
 import Contact from '../models/contact.model.js';
+import { incrementCount } from './count.controller.js';
+
 
 export const submitContact = async (req, res, next) => {
   try {
@@ -11,7 +13,12 @@ export const submitContact = async (req, res, next) => {
     });
 
     await newContact.save();
+    await incrementCount('messages');
 
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'messages' });
+    }
     res.status(200).json({ success: true, message: 'Contact form submitted successfully' });
   } catch (error) {
     next(error);

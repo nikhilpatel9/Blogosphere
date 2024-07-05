@@ -1,6 +1,29 @@
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utills/error.js';
 import User from '../models/user.model.js';
+import { incrementCount } from './count.controller.js';
+
+// ... existing code ...
+
+export const signup = async (req, res, next) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const newUser = new User({ username, email, password });
+    await newUser.save();
+    await incrementCount('users');
+
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'users' });
+    }
+
+    res.status(201).json('User created successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 export const test = (req, res) => {
   res.json({ message: 'API is working!' });

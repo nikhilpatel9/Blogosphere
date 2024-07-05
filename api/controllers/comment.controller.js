@@ -1,5 +1,10 @@
 //import { errorHandler } from "../utills/error.js";
 import Comment from "../models/comment.model.js";
+import { incrementCount } from './count.controller.js';
+
+// ... existing code ...
+
+
 export const createComment = async (req, res, next) => {
     try {
       const { content, postId, userId } = req.body;
@@ -16,6 +21,12 @@ export const createComment = async (req, res, next) => {
         userId,
       });
       await newComment.save();
+      await incrementCount('comments');
+
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'comments' });
+    }
   
       res.status(200).json(newComment);
     } catch (error) {

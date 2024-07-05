@@ -1,5 +1,11 @@
 import Post from '../models/post.model.js';
 import { errorHandler } from '../utills/error.js';
+import { incrementCount } from './count.controller.js';
+
+
+
+
+
 
 export const create = async (req, res, next) => {
   if (!req.user.isAdmin) {
@@ -20,6 +26,12 @@ export const create = async (req, res, next) => {
   });
   try {
     const savedPost = await newPost.save();
+    await incrementCount('posts');
+
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'posts' });
+    }
     res.status(201).json(savedPost);
   } catch (error) {
     next(error);

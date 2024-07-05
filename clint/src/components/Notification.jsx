@@ -25,6 +25,8 @@ export default function Notification() {
     };
 
     fetchNotifications();
+    const interval = setInterval(fetchNotifications, 1000); // Fetch every 10 seconds
+    return () => clearInterval(interval);
   }, [currentUser.token]);
 
   return (

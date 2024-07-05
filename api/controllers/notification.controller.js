@@ -1,4 +1,7 @@
 import Notification from '../models/notification.model.js';
+import { incrementCount } from './count.controller.js';
+
+// ... existing code ...
 
 export const createNotification = async (req, res, next) => {
   const { message } = req.body;
@@ -10,6 +13,12 @@ export const createNotification = async (req, res, next) => {
   try {
     const newNotification = new Notification({ message });
     const savedNotification = await newNotification.save();
+    await incrementCount('notifications');
+
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'notifications' });
+    }
     res.status(201).json(savedNotification);
   } catch (error) {
     next(error);

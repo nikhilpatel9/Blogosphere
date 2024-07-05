@@ -9,6 +9,8 @@ import contactRoutes from './routes/contact.route.js';
 import notificationRoutes from './routes/notification.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import countRoutes from './routes/count.route.js';
+import { setupSSE } from './controllers/count.controller.js';
 
 dotenv.config();
 
@@ -38,6 +40,10 @@ app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/admin', countRoutes);
+
+// Add SSE endpoint
+app.get('/api/admin/count-updates', setupSSE);
 
 app.use(express.static(path.join(__dirname, '/clint/dist')));
 

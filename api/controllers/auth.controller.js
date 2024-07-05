@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 // import bcryptjs from 'bcryptjs';
 // import { errorHandler } from '../utils/error.js';
 // import jwt from 'jsonwebtoken';
+import { incrementCount } from './count.controller.js';
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -32,6 +33,14 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
+    await newUser.save();
+    await incrementCount('users');
+
+    const sendSSEUpdate = req.app.get('sendSSEUpdate');
+    if (sendSSEUpdate) {
+      sendSSEUpdate({ type: 'users' });
+    }
+
     res.json('Signup successful');
   } catch (error) {
     next(error);
