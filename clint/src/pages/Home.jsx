@@ -28,19 +28,20 @@ export default function Home() {
       webDevelopment: [],
       softwareEngineering: []
     };
-
+    
     posts.forEach(post => {
-      if (['cpp', 'javascript', 'java'].includes(post.category)) {
-        categorized.programming.push(post);
+      const category = post.category.toLowerCase();
+      if (['cpp', 'javascript', 'java'].includes(category)) {
+        categorized.programming.push(post)
       }
-      if (['reactjs', 'nextjs', 'javascript'].includes(post.category)) {
-        categorized.webDevelopment.push(post);
+      if (['reactjs', 'nextjs', 'javascript'].includes(category)) {
+        categorized.webDevelopment.push(post)
       }
-      if (['dsa', 'algo', 'nextjs', 'reactjs', 'javascript', 'cpp', 'java'].includes(post.category)) {
-        categorized.softwareEngineering.push(post);
+      if (['dsa', 'algo', 'nextjs', 'reactjs', 'javascript', 'cpp', 'java'].includes(category)) {
+        categorized.softwareEngineering.push(post)
       }
     });
-
+    
     setCategorizedPosts(categorized);
   };
 
@@ -90,17 +91,20 @@ export default function Home() {
             <CategoryCard 
               title="Programming" 
               image="https://images.unsplash.com/photo-1542831371-29b0f74f9713"
-              category="programming"
+              posts={categorizedPosts.programming}
+             
             />
             <CategoryCard 
               title="Web Development" 
               image="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
-              category="webDevelopment"
+              posts={categorizedPosts.webDevelopment}
+              
             />
             <CategoryCard 
               title="Software Engineering" 
               image="https://images.unsplash.com/photo-1605379399642-870262d3d051"
-              category="softwareEngineering"
+              posts={categorizedPosts.softwareEngineering}
+           
             />
           </div>
         </div>
@@ -109,15 +113,22 @@ export default function Home() {
   );
 }
 
-function CategoryCard({ title, image, category }) {
+function CategoryCard({ title, image, posts }) {
+  const categories = posts.map(post => post.category.toLowerCase());
+  
+  // Construct the query string
+  const searchParams = new URLSearchParams();
+  categories.forEach(category => searchParams.append('category', category));
+  const queryString = searchParams.toString();
+
   return (
     <div className="relative overflow-hidden rounded-lg shadow-lg group">
       <img src={image} alt={title} className="w-full h-64 object-cover transition duration-300 group-hover:scale-110" />
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
         <h3 className="text-white text-2xl font-bold mb-2">{title}</h3>
-        <p className="text-white text-center">{category.length} posts</p>
+        
         <Link 
-          to={`/search?category=${category}`} 
+          to={`/search?${queryString}`} 
           className="mt-4 px-4 py-2 bg-white text-purple-600 rounded-full text-sm font-bold hover:bg-opacity-90 transition duration-300"
         >
           View Posts
