@@ -126,14 +126,37 @@ export default function CreatePost() {
                     />
                 )
             }
-            <ReactQuill theme='snow'
-             placeholder="write something..." 
-             className="h-72 mb-12 "
-             required
-             onChange={(value)=>{
-                setFormData({...formData,content:value});
-             }}
-             />
+            <ReactQuill
+            theme="snow"
+            placeholder="Share your thoughts, ideas, or stories..."
+            className="h-72 mb-12 editor-container text-gray-900 dark:text-gray-100
+            [&_.ql-snow_.ql-stroke]:stroke-gray-900 dark:[&_.ql-snow_.ql-stroke]:stroke-gray-400 
+            [&_.ql-snow_.ql-fill]:fill-gray-900 dark:[&_.ql-snow_.ql-fill]:fill-gray-400
+            [&_.ql-editor]:text-gray-900 dark:[&_.ql-editor]:text-gray-100
+            [&_.ql-picker]:text-gray-900 dark:[&_.ql-picker]:text-gray-100
+            [&_.ql-editor.ql-blank::before]:text-gray-900 dark:[&_.ql-editor.ql-blank::before]:text-gray-400"
+            required
+            modules={{
+                toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['link', 'image', 'video'],
+                ['clean'],
+                ],
+            }}
+            formats={[
+                'header',
+                'bold', 'italic', 'underline', 'strike',
+                'list', 'bullet',
+                'link', 'image', 'video',
+            ]}
+            onChange={(content) => {
+                setFormData((prevData) => ({ ...prevData, content }));
+            }}
+            onFocus={() => console.log('Editor focused')}
+            onBlur={() => console.log('Editor blurred')}
+            />
             <Button type="submit" 
             gradientDuoTone='purpleToBlue'>
                 Publish
