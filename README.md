@@ -1,118 +1,170 @@
-﻿### **Project Documentation: Social Media Content Analyzer**
+# 📝 Blogosphere (MERN Stack Blog Application)
+
+A full-stack **Blog Application** built with MERN stack. It allows users to create, edit, and manage blog posts with secure authentication, media uploads, and an admin dashboard.
 
 ---
 
-## **Project Overview**
-The **Social Media Content Analyzer** is a web application that allows users to upload documents (PDFs or images). It extracts content from these documents, analyzes the sentiment, and provides actionable suggestions to improve social media engagement. The application consists of:
-- **Frontend**: A React-based user interface.
-- **Backend**: A FastAPI server for processing and analyzing content.
+## 🚀 Features
+
+### 👤 User Authentication
+- Secure login & registration using **JWT**.
+- Google OAuth 2.0 authentication.
+- Role-based access (User / Admin).
+- Passwords stored securely using bcrypt.
+
+### 📝 Blogging Features
+- Create, edit, delete blog posts.
+- Rich-text editor support.
+- Upload images with posts (Multer + Cloudinary).
+- Full-text search with MongoDB indexes.
+- Category & tag-based filtering.
+
+### ⭐ User Engagement
+- Like & comment on posts.
+- View author profiles.
+- Follow/unfollow authors.
+- Pagination & infinite scrolling.
+
+### 📊 Admin Dashboard
+- Manage users & blogs.
+- Moderate comments and flagged posts.
+- Analytics on popular posts & engagement metrics.
+
+### 💻 Technical Features
+- **React + Tailwind CSS** responsive UI.
+- **Redux Toolkit** for global state management.
+- **Express + MongoDB** backend with REST APIs.
+- Secure routes with JWT middleware.
 
 ---
 
-## **Features**
-1. **File Upload**: Supports PDF and image uploads (PNG, JPG, TIFF).
-2. **Content Extraction**:
-   - Extracts text from PDF files.
-   - Uses OCR to extract text from images.
-3. **Sentiment Analysis**:
-   - Analyzes the sentiment (positive, negative, or neutral) of the extracted text.
-4. **Engagement Suggestions**:
-   - Provides recommendations to improve social media content.
-5. **Full-Stack Integration**:
-   - The frontend and backend are integrated into a single deployable application.
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React.js  
+- Tailwind CSS  
+- Redux Toolkit  
+- React Router DOM  
+
+**Backend:**
+- Node.js  
+- Express.js  
+- MongoDB (Mongoose ODM)  
+
+**Authentication:**
+- JWT  
+- Google OAuth  
+
+**Other:**
+- Multer / Cloudinary for image uploads  
+- Bcrypt for password hashing  
+- Validator for input sanitization  
 
 ---
 
-## **How It Works**
+## 📂 Project Structure
 
-### **Frontend**
-1. Users upload a file via the React interface.
-2. The file is sent to the backend via a `POST` request.
-3. The backend processes the file and returns:
-   - Extracted text.
-   - Sentiment analysis.
-   - Engagement suggestions.
-4. The frontend displays the results in an easy-to-read format.
-
----
-
-### **Backend**
-1. **File Handling**:
-   - PDF files are processed using `PyPDF2` to extract text.
-   - Image files are processed using `pytesseract` (OCR).
-2. **Content Analysis**:
-   - Extracted text is analyzed for sentiment using `TextBlob`.
-   - Suggestions are generated based on the content and sentiment.
-3. **Static File Serving**:
-   - The React build files are served through FastAPI.
-
----
-
-## **Setup and Build Process**
-
-### *1. Prerequisites**
-- Python 3.10+
-- Node.js 16+
-- Pip and Virtual Environment (optional)
-
----
-
-
-
-
-### **. Integration**
-Update the FastAPI application to serve the React build files:
-```python
-from fastapi.staticfiles import StaticFiles
-
-app.mount("/", StaticFiles(directory="build", html=True))
 ```
-
----
-
-
-
-## **How to Use**
-1. Open the deployed application in your browser.
-2. Upload a PDF or image file.
-3. View:
-   - Extracted content.
-   - Sentiment analysis results.
-   - Engagement suggestions.
-4. Use the suggestions to improve your social media posts.
-
----
-
-## **Project Structure**
-```
-project/
-├── backend/
-│   ├── main.py                 # FastAPI backend
-│   ├── requirements.txt        # Python dependencies
-│   ├── runtime.txt             # Python version for Render
-│   └── build/                  # React build files (from frontend)
-├── frontend/
+Blogosphere/
+│── backend/
+│   ├── models/         # Mongoose models (User, Post, Comment)
+│   ├── routes/         # API routes
+│   ├── controllers/    # Business logic
+│   ├── middleware/     # Auth middlewares
+│   └── server.js       # Entry point
+│
+│── frontend/
 │   ├── src/
-│   │   ├── App.js              # Main React component
-│   │   ├── DocumentProcessor.js # File upload and results display
-│   │   └── ...
-│   ├── package.json            # React dependencies and scripts
-│   └── ...
-└── render-build.sh             # Script to install tesseract-ocr
+│   │   ├── components/ # Reusable components
+│   │   ├── pages/      # Blog pages
+│   │   ├── redux/      # State management
+│   │   └── App.js
+│   └── package.json
+│
+│── README.md
+│── package.json
 ```
 
 ---
 
-## **Testing**
-1. Test locally with sample PDFs and images.
-2. Verify results for:
-   - Correct text extraction.
-   - Accurate sentiment analysis.
-   - Relevant engagement suggestions.
----
-## **Run the Peoject**
-frontend>npm start
-backend>uvicorn main:app –reload
----
-This documentation provides a complete overview of your project, from setup to deployment!
+## ⚙️ Installation & Setup
 
+### Steps
+
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/nikhilpatel9/Blogosphere.git
+   cd Blogosphere
+   ```
+
+2. **Install backend dependencies**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Install frontend dependencies**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+4. **Environment variables**  
+   Create `.env` in backend:
+   ```
+   MONGO_URI=your_mongodb_uri
+   JWT_SECRET=your_secret
+   GOOGLE_CLIENT_ID=your_id
+   GOOGLE_CLIENT_SECRET=your_secret
+   CLOUDINARY_KEY=your_key
+   CLOUDINARY_SECRET=your_secret
+   ```
+
+5. **Run backend**
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+6. **Run frontend**
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+---
+
+## 📊 Example Use Cases
+
+- **User**
+  - Register/login via JWT or Google OAuth
+  - Create and manage blog posts
+  - Upload featured images
+  - Like, comment, follow authors
+  - Search & filter blogs by tags/categories
+
+- **Admin**
+  - Manage users and roles
+  - Delete inappropriate posts or comments
+  - View analytics on most popular content
+
+---
+
+## 📌 Future Enhancements
+- Newsletter system
+- Bookmark/favorites
+- Trending blogs page
+- AI-powered blog recommendations
+- Social media sharing integration
+
+---
+
+## 🤝 Contribution
+Contributions are welcome! Please fork this repo and create a pull request.
+
+---
+
+## 📧 Contact
+Created by **Nikhil Patel**  
+- GitHub: [@nikhilpatel9](https://github.com/nikhilpatel9)  
+- LinkedIn: [Your LinkedIn]  
